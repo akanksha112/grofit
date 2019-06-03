@@ -1,0 +1,35 @@
+##the program has to be changed according to file names
+## read rawdata csv
+rawdataznb<-read.csv("htpg_37.csv")
+
+##make another file excluding time column
+rawdataznb1<-rawdataznb[c(2:37)]
+
+## following data frame will have gcfit parameters that we require
+compiledznb37<-data.frame()
+
+## following data frame will have fit values
+fitznb37<-data.frame()
+
+for (n in c(1:ncol(rawdataznb)))
+{for (m in c(1:ncol(rawdataznb1))) 
+## using gcFitmodel fitting will be done
+{
+  finalznb1<-gcFitModel(rawdataznb $Time, rawdataznb1[,n])
+  
+  ## A is stationary phase, mu is log phase and lambda is lag phase
+  compiledznb37[1,n]<-finalznb1[["parameters"]][["A"]][["Estimate"]]
+  compiledznb37[2,n]<-finalznb1[["parameters"]][["A"]][["Std. Error"]]
+  compiledznb37[3,n]<-finalznb1[["parameters"]][["mu"]][["Estimate"]]
+  compiledznb37[4,n]<-finalznb1[["parameters"]][["mu"]][["Std. Error"]]
+  compiledznb37[5,n]<-finalznb1[["parameters"]][["lambda"]][["Estimate"]]
+  compiledznb37[6,n]<-finalznb1[["parameters"]][["lambda"]][["Std. Error"]]
+  compiledznb37[7,n]<-finalznb1[["model"]]
+  
+  ## define no. of rows like [1:100,n] according to your data(excluding the label) 
+  fitznb37[1:100,n]<-finalznb1[["fit.data"]]
+  n<-n+1
+}
+  m<-m+1}
+  
+
